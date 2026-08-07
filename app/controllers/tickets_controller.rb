@@ -3,7 +3,7 @@ class TicketsController < ApplicationController
     return unless params[:q].present?
 
     query_words = params[:q].downcase.split(" ")
-    scored_topics = Topic.all.map { |topic| [topic, match_score(topic, query_words)] }
+    scored_topics = Topic.all.map { |topic| [ topic, match_score(topic, query_words) ] }
     best_topic, best_score = scored_topics.max_by { |_, score| score }
 
     @matched_topic = best_score > 0 ? best_topic : nil
