@@ -1,0 +1,22 @@
+<h1>Ticket Triage Search</h1>
+
+<%= form_with url: search_path, method: :get, local: true do |form| %>
+  <%= form.text_field :q, value: params[:q], placeholder: "Describe the issue..." %>
+  <%= form.submit "Search" %>
+<% end %>
+
+<% if params[:q].present? %>
+  <hr>
+  <% if @matched_topic %>
+    <h2>Assign to:</h2>
+    <p><strong>Employee:</strong> <%= @matched_topic.employee.name %> (<%= @matched_topic.employee.role %>)</p>
+    <p><strong>Department:</strong> <%= @matched_topic.employee.department.name %></p>
+    <% if @matched_topic.employee.manager %>
+      <p><strong>Manager:</strong> <%= @matched_topic.employee.manager.name %></p>
+    <% else %>
+      <p><strong>Manager:</strong> none (top-level)</p>
+    <% end %>
+  <% else %>
+    <p>No matching topic found for "<%= params[:q] %>".</p>
+  <% end %>
+<% end %>
